@@ -24,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # 应用邀请她输入一个待办事项
         inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertEqual(input.get_attribute(
+        self.assertEqual(inputbox.get_attribute(
             'placeholder'), 'Enter a to-do item')
 
         # 她在一个文本框中输入了 "Buy peacock feathers" (购买孔雀羽毛)
@@ -35,16 +35,17 @@ class NewVisitorTest(unittest.TestCase):
         # 待办事项表格中显示了 "1: Buy peacock feathers"
         inputbox.send_keys('Keys.ENTER')
 
-        table = self.browser.find_element_by_id('id_list_table')    # 如没有找到元素就抛出异常
+        table = self.browser.find_element_by_id(
+            'id_list_table')    # 如没有找到元素就抛出异常
         rows = table.find_elements_by_tag_name('tr')    # 没有找到就返回一个空 list
         self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows))
+            any(row.text == '1: Buy peacock feathers' for row in rows), "New to-do item did not appear in talble")
 
         # 页面中有显示了一个文本框,可以输入其他的待办事项
         # 她输入了 "Use peacock feathers to make a fly" (使用孔雀羽毛做假蝇)
         # 伊迪丝做事很有条理
         self.fail('Finish the test!')
-        
+
         # 页面再次更新,她的清单中显示了这两个待办事项
         #
         # 伊迪丝想知道这个网站是否能记住她的清单
