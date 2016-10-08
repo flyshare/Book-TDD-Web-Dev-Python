@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
 
 def home_page(request):
-    return HttpResponse('<html><title>To-Do lists</title></html>')
+    return render(request, 'home.html') # 1:请求对象 2:渲染的模板 
+                                        # Django会在所有的应用目录下搜索 templates目录,根据模板内容
+                                        # 构建一个 HttpResponse 对象
