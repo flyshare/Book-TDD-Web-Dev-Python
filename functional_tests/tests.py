@@ -1,15 +1,14 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
-import time
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     """"""
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)  # 这是隐式等待,如果逻辑复杂,需要使用更复杂的 显示等待
+        self.browser.implicitly_wait(10)  # 这是隐式等待,如果逻辑复杂,需要使用更复杂的 显示等待
 
     def tearDown(self):
         self.browser.quit()
@@ -23,7 +22,7 @@ class NewVisitorTest(unittest.TestCase):
         """"""
         # 伊迪丝听说有一个很酷的在线待办事项应用
         # 她去看了这个应用的首页
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         # 她注意到网页的标题和头部都包含 "To-Do" 这个词
         self.assertIn('To-Do', self.browser.title)
         head_text = self.browser.find_element_by_tag_name('h1').text
@@ -67,6 +66,3 @@ class NewVisitorTest(unittest.TestCase):
         # 而且页面中有一些文字解说这个功能
         self.fail('Finish the test!')
         # 她访问了这个 URL,发现她的待办事项列表还在
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
