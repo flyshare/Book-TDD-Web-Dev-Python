@@ -38,7 +38,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys('Buy peacock feathers')
         #
         # 她按回车键后,页面更新了
-        # 待办事项表格中显示了 "1: Buy peacock feathers"
+        # 待办事项表格中显示了 "1. Buy peacock feathers"
         inputbox.send_keys(Keys.ENTER)
 
         # table = self.browser.find_element_by_id(
@@ -47,9 +47,9 @@ class NewVisitorTest(unittest.TestCase):
         # print('table.text: ', table.text) # 它的值是由 Keys.ENTER 提交而来
         # time.sleep(10)
         # self.assertTrue(
-        #     any(row.text == '1: Buy peacock feathers' for row in rows), \
+        #     any(row.text == '1. Buy peacock feathers' for row in rows), \
         #     "New to-do item did not appear in table -- its text was:\n%s" % (table.text,))
-        # self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
+        # self.assertIn('1. Buy peacock feathers', [row.text for row in rows])
 
         # 页面中有显示了一个文本框,可以输入其他的待办事项
         # 她输入了 "Use peacock feathers to make a fly" (使用孔雀羽毛做假蝇)
@@ -61,7 +61,7 @@ class NewVisitorTest(unittest.TestCase):
         # 页面再次更新,她的清单中显示了这两个待办事项
         self.check_for_row_in_list_table('1. Buy peacock feathers')
         self.check_for_row_in_list_table(
-            '2: Use peacock feathers to make a fly')
+            '2. Use peacock feathers to make a fly')
         # 伊迪丝想知道这个网站是否能记住她的清单
         # 她看到网站为她生成了一个唯一的 URL
         # 而且页面中有一些文字解说这个功能
