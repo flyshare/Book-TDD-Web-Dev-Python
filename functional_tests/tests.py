@@ -40,7 +40,7 @@ class NewVisitorTest(LiveServerTestCase):
         # 待办事项表格中显示了 "1. Buy peacock feathers"
         inputbox.send_keys(Keys.ENTER)
         edith_list_url = self.browser.current_url
-        self.assertRegex(edith_list_url, '/list/.+')
+        self.assertRegex(edith_list_url, '/lists/.+')
 
         # table = self.browser.find_element_by_id(
         # 'id_list_table')    # 如没有找到元素就抛出异常
