@@ -24,39 +24,6 @@ class HomePageTest(TestCase):
         # 因为 网络传输的内容是 utf8编码,而加载到内存的都是 Unicdoe 编码
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_home_page_can_save_a_POST_request(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = 'A new list item'
-
-        response = home_page(request)
-
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.first()
-        self.assertEqual(new_item.text, 'A new list item')
-
-        self.assertEqual(response.status_code, 302)  # 302 状态码,是否重定向
-        self.assertEqual(response['location'],
-                         '/lists/the-only-list-in-the-world/')
-
-    def test_home_page_redirects_after_POST(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = 'A new list item'
-
-        response = home_page(request)
-
-        self.assertEqual(response.status_code, 302)  # 302 状态码,是否重定向
-        self.assertEqual(response['location'],
-                         '/lists/the-only-list-in-the-world/')
-
-    def test_home_page_only_saves_items_when_necessary(self):
-        request = HttpRequest()
-        # request.method = 'POST'
-        home_page(request)
-        # print(request.method)
-        self.assertEqual(Item.objects.count(), 0)
-
 
 class ItemModelTest(TestCase):
 
@@ -94,3 +61,19 @@ class ListViewTest(TestCase):
         # Django 的assertContains() 知道如何处理响应以及响应内容中的字节
         self.assertContains(response, 'itemey 1')
         self.assertContains(response, 'itemey 1')
+
+
+class NewListTest(TestCase):
+    """"""
+
+    def test_home_page_can_save_a_POST_request(self):
+        self.client.post('/lists/new', data={'item_text': 'A new list item', })
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+    def test_home_page_redirects_after_POST(self):
+        response = self.client.post(
+            '/lists/new', data={'item_text': 'A new list item', })
+        self.assertEqual(response.status_code, 302)  # 302 状态码,是否重定向
+        self.assertRedirects(response, '/lists/the-only-list-in-the-world/')

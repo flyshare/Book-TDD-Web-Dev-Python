@@ -8,12 +8,13 @@ def home_page(request):
     # return render(request, 'home.html')  # 1:请求对象 2:渲染的模板
     # Django会在所有的应用目录下搜索 templates目录,根据模板内容
     # 构建一个 HttpResponse 对象
-    if request.method == 'POST':
-        Item.objects.create(text=request.POST['item_text'])
-        return redirect('/lists/the-only-list-in-the-world/')
     return render(request, 'home.html')
 
 
 def view_list(request):
     items = Item.objects.all()  # items 传递给 render() 会自动替换 HTML 中的 Python变量  items
     return render(request, 'list.html', {'items': items, })
+
+def new_list(request):
+    Item.objects.create(text=request.POST['item_text'])
+    return redirect('/lists/the-only-list-in-the-world/')
